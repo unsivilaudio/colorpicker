@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Palette from './Palette';
+import seedColors from '../seedColors';
+
 const app = props => {
     return (
         <div>
-            <h1>The App Component</h1>
+            <Palette {...seedColors[3]} />
         </div>
     );
 };
