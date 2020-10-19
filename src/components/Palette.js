@@ -5,24 +5,41 @@ import ColorBox from './ColorBox';
 import '../styles/Palette.css';
 
 class Palette extends React.Component {
-    state = { level: 500 };
+    state = { level: 500, format: 'hex' };
 
     changeLevel = level => {
         this.setState({ level });
     };
 
+    handleChangeFormat = e => {
+        this.setState({ format: e.target.value });
+    };
+
     render() {
-        const { colors } = this.props.palette;
-        const { level } = this.state;
+        const { colors, paletteName, emoji } = this.props.palette;
+        const { level, format } = this.state;
         const colorBoxes = colors[level].map((color, i) => {
             return (
-                <ColorBox key={i} background={color.hex} name={color.name} />
+                <ColorBox
+                    key={color.id}
+                    background={color[format]}
+                    name={color.name}
+                />
             );
         });
         return (
-            <div className='Pallete'>
-                <Navbar level={level} changeLevel={this.changeLevel} />
-                <div className='Pallete-colors'>{colorBoxes}</div>
+            <div className='Palette'>
+                <Navbar
+                    level={level}
+                    changeLevel={this.changeLevel}
+                    changeFormat={this.handleChangeFormat}
+                    format={format}
+                />
+                <div className='Palette-colors'>{colorBoxes}</div>
+                <footer className='Palette-footer'>
+                    {paletteName}
+                    <span className='emoji'>{emoji}</span>
+                </footer>
             </div>
         );
     }
