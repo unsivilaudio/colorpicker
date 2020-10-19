@@ -5,6 +5,7 @@ import Palette from './Palette';
 import seedColors from '../seedColors';
 import { generatePalette } from '../utils/chroma';
 import '../styles/App.css';
+import PaletteList from './PaletteList';
 
 const app = props => {
     function findPalette(id) {
@@ -17,7 +18,7 @@ const app = props => {
                 <Route
                     exact
                     path='/'
-                    render={() => <h1>This is the mini-list page</h1>}
+                    render={() => <PaletteList palettes={seedColors} />}
                 />
                 <Route
                     exact
