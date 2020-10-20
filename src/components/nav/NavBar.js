@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { IconButton, MenuItem, Select, Snackbar } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import '../../styles/NavBar.css';
-import { Link } from 'react-router-dom';
+
 class Navbar extends React.Component {
     state = { sbOpen: false };
 
