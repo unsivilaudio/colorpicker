@@ -16,10 +16,13 @@ const app = props => {
     const getColorSpectrum = ({ paletteId, colorId }) => {
         const { colors } = generatePalette(findPalette(paletteId));
         const levels = Object.keys(colors);
-        return levels.reduce((acc, val) => {
-            acc.push(colors[val].find(el => el.id === colorId));
-            return acc;
-        }, []);
+        return levels
+            .reduce((acc, val) => {
+                acc.push(colors[val].find(el => el.id === colorId));
+                return acc;
+            }, [])
+            .splice(1)
+            .reverse();
     };
 
     return (

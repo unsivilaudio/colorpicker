@@ -27,6 +27,7 @@ class Palette extends React.Component {
                     name={color.name}
                     id={color.id}
                     paletteId={id}
+                    showMore
                 />
             );
         });
