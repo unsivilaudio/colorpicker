@@ -13,8 +13,8 @@ const app = props => {
         return seedColors.find(el => el.id === id);
     }
 
-    const getColorSpectrum = ({ paletteId, colorId }) => {
-        const { colors } = generatePalette(findPalette(paletteId));
+    const getColorSpectrum = (palette, colorId) => {
+        const { colors } = generatePalette(palette);
         const levels = Object.keys(colors);
         return levels
             .reduce((acc, val) => {
@@ -48,12 +48,22 @@ const app = props => {
                 />
                 <Route
                     path='/palette/:paletteId/:colorId'
-                    render={props => (
-                        <SingleColorPalette
-                            shades={getColorSpectrum(props.match.params)}
-                            {...props}
-                        />
-                    )}
+                    render={props => {
+                        const match = findPalette(props.match.params.paletteId);
+                        const { emoji, paletteName } = match;
+                        return (
+                            <SingleColorPalette
+                                shades={getColorSpectrum(
+                                    match,
+                                    props.match.params.colorId
+                                )}
+                                emoji={emoji}
+                                paletteId={props.match.params.paletteId}
+                                paletteName={paletteName}
+                                {...props}
+                            />
+                        );
+                    }}
                 />
             </Switch>
         </div>

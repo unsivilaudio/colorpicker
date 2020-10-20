@@ -28,18 +28,21 @@ class Navbar extends React.Component {
                 <div className='logo'>
                     <Link to='/'>reactcolorpicker</Link>
                 </div>
-                <div className='slider-container'>
-                    <span>Level: {level}</span>
-                    <div className='slider'>
-                        <Slider
-                            defaultValue={level}
-                            min={100}
-                            max={900}
-                            step={100}
-                            onAfterChange={changeLevel}
-                        />
+                {level && (
+                    <div className='slider-container'>
+                        <span>Level: {level}</span>
+                        <div className='slider'>
+                            <Slider
+                                defaultValue={level}
+                                min={100}
+                                max={900}
+                                step={100}
+                                onAfterChange={changeLevel}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
+
                 <div className='select-container'>
                     <Select onChange={changeFormat} value={format}>
                         <MenuItem value='hex'>HEX - #fffff</MenuItem>
@@ -49,6 +52,7 @@ class Navbar extends React.Component {
                         </MenuItem>
                     </Select>
                 </div>
+
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                     open={this.state.sbOpen}
