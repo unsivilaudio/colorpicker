@@ -4,8 +4,8 @@ import { IconButton, MenuItem, Select, Snackbar } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 import Slider from 'rc-slider';
 import { withStyles } from '@material-ui/styles';
+
 import 'rc-slider/assets/index.css';
-import '../../styles/NavBar.css';
 import Styles from '../../styles/NavbarStyles';
 
 class Navbar extends React.Component {
