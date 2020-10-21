@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { IconButton, MenuItem, Select, Snackbar } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 import Slider from 'rc-slider';
+import { withStyles } from '@material-ui/styles';
 import 'rc-slider/assets/index.css';
-
 import '../../styles/NavBar.css';
+import Styles from '../../styles/NavbarStyles';
 
 class Navbar extends React.Component {
     state = { sbOpen: false };
@@ -21,17 +22,23 @@ class Navbar extends React.Component {
     }
 
     render() {
-        const { level, changeLevel, changeFormat, format } = this.props;
+        const {
+            level,
+            changeLevel,
+            changeFormat,
+            format,
+            classes,
+        } = this.props;
 
         return (
-            <header className='Navbar'>
-                <div className='logo'>
+            <header className={classes.navbar}>
+                <div className={classes.logo}>
                     <Link to='/'>reactcolorpicker</Link>
                 </div>
                 {level && (
-                    <div className='slider-container'>
+                    <div className={classes.sliderContainer}>
                         <span>Level: {level}</span>
-                        <div className='slider'>
+                        <div className={classes.slider}>
                             <Slider
                                 defaultValue={level}
                                 min={100}
@@ -43,7 +50,7 @@ class Navbar extends React.Component {
                     </div>
                 )}
 
-                <div className='select-container'>
+                <div className={classes.selectContainer}>
                     <Select onChange={changeFormat} value={format}>
                         <MenuItem value='hex'>HEX - #fffff</MenuItem>
                         <MenuItem value='rgb'>RGB - rgb(255,255,255)</MenuItem>
@@ -79,4 +86,4 @@ class Navbar extends React.Component {
     }
 }
 
-export default Navbar;
+export default withStyles(Styles)(Navbar);
