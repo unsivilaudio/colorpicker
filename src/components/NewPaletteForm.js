@@ -78,15 +78,16 @@ const styles = theme => ({
 });
 
 class NewPaletteForm extends React.Component {
+    static defaultProps = {
+        maxColors: 20,
+    };
+
     state = {
         open: true,
         currentColor: '#00808',
         newColorName: '',
         newPaletteName: '',
-        colors: [
-            { name: 'Purple', color: '#A640CB' },
-            { name: 'Teal', color: '#3afeaa' },
-        ],
+        colors: this.props.palettes[0].colors,
     };
 
     componentDidMount() {
@@ -137,6 +138,26 @@ class NewPaletteForm extends React.Component {
         this.setState({ colors });
     };
 
+    clearColors = () => {
+        this.setState({ colors: [] });
+    };
+
+    getRandomColor = () => {
+        const allColors = this.props.palettes.map(p => p.colors).flat();
+        const rand = Math.floor(Math.random() * allColors.length);
+        let newColor = allColors[rand];
+        if (this.state.colors.find(el => el.name === newColor.name)) {
+            newColor = this.getRandomColor();
+        }
+        return newColor;
+    };
+
+    addRandomColor = () => {
+        const newColor = this.getRandomColor();
+        const colors = this.state.colors.concat(newColor);
+        this.setState({ colors });
+    };
+
     onSortEnd = ({ oldIndex, newIndex }) => {
         this.setState(({ colors }) => ({
             colors: arrayMove(colors, oldIndex, newIndex),
@@ -158,8 +179,9 @@ class NewPaletteForm extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
-        const { open } = this.state;
+        const { classes, maxColors } = this.props;
+        const { open, colors } = this.state;
+        const paletteIsFull = colors.length === maxColors;
 
         return (
             <div className={classes.root}>
@@ -181,7 +203,7 @@ class NewPaletteForm extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant='h6' color='inherit' noWrap>
-                            Persistent drawer
+                            Create A New Palette
                         </Typography>
                         <ValidatorForm onSubmit={this.handleSubmit}>
                             <TextValidator
@@ -220,10 +242,17 @@ class NewPaletteForm extends React.Component {
                     <Divider />
                     <Typography variant='h4'>Design Your Palette</Typography>
                     <div>
-                        <Button variant='contained' color='secondary'>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            onClick={this.clearColors}>
                             Clear Palette
                         </Button>
-                        <Button variant='contained' color='primary'>
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            disabled={paletteIsFull}
+                            onClick={this.addRandomColor}>
                             Random Color
                         </Button>
                     </div>
@@ -251,9 +280,17 @@ class NewPaletteForm extends React.Component {
                         <Button
                             variant='contained'
                             color='primary'
-                            style={{ backgroundColor: this.state.currentColor }}
+                            disabled={paletteIsFull}
+                            style={
+                                !paletteIsFull
+                                    ? {
+                                          backgroundColor: this.state
+                                              .currentColor,
+                                      }
+                                    : null
+                            }
                             type='submit'>
-                            Add Color
+                            {paletteIsFull ? 'PALETTE FULL' : 'Add Color'}
                         </Button>
                     </ValidatorForm>
                 </Drawer>
@@ -263,7 +300,7 @@ class NewPaletteForm extends React.Component {
                     })}>
                     <div className={classes.drawerHeader} />{' '}
                     <DraggableColorList
-                        colors={this.state.colors}
+                        colors={colors}
                         removeColor={this.removeColor}
                         axis='xy'
                         onSortEnd={this.onSortEnd}
