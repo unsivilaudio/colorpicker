@@ -13,8 +13,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { ChromePicker } from 'react-color';
 import { Button } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import arrayMove from 'array-move';
 
-import DraggableColorBox from './DraggableColorBox';
+import DraggableColorList from './DraggableColorList';
 
 const drawerWidth = 400;
 
@@ -80,7 +81,8 @@ class NewPaletteForm extends React.Component {
     state = {
         open: true,
         currentColor: '#00808',
-        newName: '',
+        newColorName: '',
+        newPaletteName: '',
         colors: [
             { name: 'Purple', color: '#A640CB' },
             { name: 'Teal', color: '#3afeaa' },
@@ -96,6 +98,12 @@ class NewPaletteForm extends React.Component {
         ValidatorForm.addValidationRule('isColorUnique', value =>
             this.state.colors.every(
                 ({ color }) => color !== this.state.currentColor
+            )
+        );
+        ValidatorForm.addValidationRule('isPaletteNameUnique', value =>
+            this.props.palettes.every(
+                ({ paletteName }) =>
+                    paletteName.toLowerCase() !== value.toLowerCase()
             )
         );
     }
@@ -117,15 +125,36 @@ class NewPaletteForm extends React.Component {
         if (currentColor && newColor !== '') {
             const newColor = {
                 color: this.state.currentColor,
-                name: this.state.newName,
+                name: this.state.newColorName,
             };
             const colors = [...this.state.colors].concat(newColor);
             this.setState({ colors, newName: '' });
         }
     };
 
+    removeColor = name => {
+        const colors = this.state.colors.filter(el => el.name !== name);
+        this.setState({ colors });
+    };
+
+    onSortEnd = ({ oldIndex, newIndex }) => {
+        this.setState(({ colors }) => ({
+            colors: arrayMove(colors, oldIndex, newIndex),
+        }));
+    };
+
     handleChange = e => {
-        this.setState({ newName: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleSubmit = () => {
+        const newPalette = {
+            id: this.state.newPaletteName.replace(/ /g, '-'),
+            paletteName: this.state.newPaletteName,
+            colors: this.state.colors,
+        };
+        this.props.savePalette(newPalette);
+        this.props.history.push('/');
     };
 
     render() {
@@ -154,6 +183,25 @@ class NewPaletteForm extends React.Component {
                         <Typography variant='h6' color='inherit' noWrap>
                             Persistent drawer
                         </Typography>
+                        <ValidatorForm onSubmit={this.handleSubmit}>
+                            <TextValidator
+                                name='newPaletteName'
+                                label='Palette Name'
+                                value={this.state.newPaletteName}
+                                onChange={this.handleChange}
+                                validators={['required', 'isPaletteNameUnique']}
+                                errorMessages={[
+                                    'Enter Palette Name',
+                                    'Name already used!',
+                                ]}
+                            />
+                            <Button
+                                type='submit'
+                                variant='contained'
+                                color='primary'>
+                                Save Palette
+                            </Button>
+                        </ValidatorForm>
                     </Toolbar>
                 </AppBar>
                 <Drawer
@@ -186,7 +234,8 @@ class NewPaletteForm extends React.Component {
                     />
                     <ValidatorForm onSubmit={this.addNewColor}>
                         <TextValidator
-                            value={this.state.newName}
+                            name='newColorName'
+                            value={this.state.newColorName}
                             onChange={this.handleChange}
                             validators={[
                                 'required',
@@ -212,17 +261,13 @@ class NewPaletteForm extends React.Component {
                     className={classNames(classes.content, {
                         [classes.contentShift]: open,
                     })}>
-                    <div className={classes.drawerHeader} />
-
-                    {this.state.colors.map(el => {
-                        return (
-                            <DraggableColorBox
-                                color={el.color}
-                                name={el.name}
-                                key={el.color}
-                            />
-                        );
-                    })}
+                    <div className={classes.drawerHeader} />{' '}
+                    <DraggableColorList
+                        colors={this.state.colors}
+                        removeColor={this.removeColor}
+                        axis='xy'
+                        onSortEnd={this.onSortEnd}
+                    />
                 </main>
             </div>
         );

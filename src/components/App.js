@@ -6,15 +6,17 @@ import Palette from './Palette';
 import SingleColorPalette from './SingleColorPalette';
 import seedColors from '../seedColors';
 import PaletteList from './PaletteList';
-import '../styles/App.css';
 import NewPaletteForm from './NewPaletteForm';
+import '../styles/App.css';
 
-const app = props => {
-    function findPalette(id) {
-        return seedColors.find(el => el.id === id);
-    }
+class App extends React.Component {
+    state = { palettes: seedColors };
 
-    const getColorSpectrum = (palette, colorId) => {
+    findPalette = id => {
+        return this.state.palettes.find(el => el.id === id);
+    };
+
+    getColorSpectrum = (palette, colorId) => {
         const { colors } = generatePalette(palette);
         const levels = Object.keys(colors);
         return levels
@@ -26,55 +28,75 @@ const app = props => {
             .reverse();
     };
 
-    return (
-        <div className='App'>
-            <Switch>
-                <Route
-                    exact
-                    path='/palette/new'
-                    render={props => <NewPaletteForm {...props} />}
-                />
-                <Route
-                    path='/palette/:paletteId/:colorId'
-                    render={props => {
-                        const match = findPalette(props.match.params.paletteId);
-                        const { emoji, paletteName } = match;
-                        return (
-                            <SingleColorPalette
-                                shades={getColorSpectrum(
-                                    match,
-                                    props.match.params.colorId
+    savePalette = newPalette => {
+        this.setState(prevState => ({
+            ...prevState,
+            palettes: prevState.palettes.concat(newPalette),
+        }));
+    };
+
+    render() {
+        return (
+            <div className='App'>
+                <Switch>
+                    <Route
+                        exact
+                        path='/palette/new'
+                        render={props => (
+                            <NewPaletteForm
+                                {...props}
+                                savePalette={this.savePalette}
+                                palettes={this.state.palettes}
+                            />
+                        )}
+                    />
+                    <Route
+                        path='/palette/:paletteId/:colorId'
+                        render={props => {
+                            const match = this.findPalette(
+                                props.match.params.paletteId
+                            );
+                            const { emoji, paletteName } = match;
+                            return (
+                                <SingleColorPalette
+                                    shades={this.getColorSpectrum(
+                                        match,
+                                        props.match.params.colorId
+                                    )}
+                                    emoji={emoji}
+                                    paletteId={props.match.params.paletteId}
+                                    paletteName={paletteName}
+                                    {...props}
+                                />
+                            );
+                        }}
+                    />
+
+                    <Route
+                        exact
+                        path='/palette/:id'
+                        render={({ match }) => (
+                            <Palette
+                                palette={generatePalette(
+                                    this.findPalette(match.params.id)
                                 )}
-                                emoji={emoji}
-                                paletteId={props.match.params.paletteId}
-                                paletteName={paletteName}
+                            />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path='/'
+                        render={props => (
+                            <PaletteList
+                                palettes={this.state.palettes}
                                 {...props}
                             />
-                        );
-                    }}
-                />
+                        )}
+                    />
+                </Switch>
+            </div>
+        );
+    }
+}
 
-                <Route
-                    exact
-                    path='/palette/:id'
-                    render={({ match }) => (
-                        <Palette
-                            palette={generatePalette(
-                                findPalette(match.params.id)
-                            )}
-                        />
-                    )}
-                />
-                <Route
-                    exact
-                    path='/'
-                    render={props => (
-                        <PaletteList palettes={seedColors} {...props} />
-                    )}
-                />
-            </Switch>
-        </div>
-    );
-};
-
-export default app;
+export default App;

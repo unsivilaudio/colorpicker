@@ -69,6 +69,7 @@ export default {
         color: 'black',
         letterSpacing: '1px',
         textTransform: 'uppercase',
+        fontSize: '1.2rem',
     },
     copyOverlay: {
         opacity: '0',

@@ -2,7 +2,8 @@ export default {
     root: {
         backgroundColor: 'blue',
         height: '100vh',
-        paddingTop: '2rem',
+        overflowY: 'auto',
+        padding: '2rem 0',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',

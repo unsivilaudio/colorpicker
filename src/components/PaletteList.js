@@ -31,6 +31,7 @@ class PaletteList extends React.Component {
                             );
                         })}
                     </div>
+                    <div style={{ height: '2rem' }} />
                 </div>
             </div>
         );
