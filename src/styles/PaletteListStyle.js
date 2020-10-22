@@ -2,6 +2,7 @@ export default {
     root: {
         backgroundColor: 'blue',
         height: '100vh',
+        paddingTop: '2rem',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
@@ -16,8 +17,13 @@ export default {
     nav: {
         display: 'flex',
         width: '100%',
+        margin: '1rem 0',
         justifyContent: 'space-between',
+        alignItems: 'center',
         color: 'white',
+        '& a': {
+            color: 'white',
+        },
     },
     palettes: {
         boxSizing: 'border-box',
