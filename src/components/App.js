@@ -12,6 +12,18 @@ import '../styles/App.css';
 class App extends React.Component {
     state = { palettes: seedColors };
 
+    componentDidMount() {
+        const savedPalettes =
+            JSON.parse(localStorage.getItem('palettes')) || [];
+        if (savedPalettes.length > 0) {
+            this.setState({ palettes: savedPalettes });
+        }
+    }
+
+    syncLocalStorage = palettes => {
+        localStorage.setItem('palettes', JSON.stringify(palettes));
+    };
+
     findPalette = id => {
         try {
             const palette = this.state.palettes.find(el => el.id === id);
@@ -35,10 +47,9 @@ class App extends React.Component {
     };
 
     savePalette = newPalette => {
-        this.setState(prevState => ({
-            ...prevState,
-            palettes: prevState.palettes.concat(newPalette),
-        }));
+        const updatedPalettes = this.state.palettes.concat(newPalette);
+        this.setState({ palettes: updatedPalettes });
+        this.syncLocalStorage(updatedPalettes);
     };
 
     render() {
