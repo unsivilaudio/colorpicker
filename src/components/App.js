@@ -52,6 +52,12 @@ class App extends React.Component {
         this.syncLocalStorage(updatedPalettes);
     };
 
+    deletePalette = id => {
+        const palettes = this.state.palettes.filter(el => el.id !== id);
+        this.setState({ palettes });
+        this.syncLocalStorage(palettes);
+    };
+
     render() {
         return (
             <div className='App'>
@@ -120,6 +126,7 @@ class App extends React.Component {
                         render={props => (
                             <PaletteList
                                 palettes={this.state.palettes}
+                                removePalette={this.deletePalette}
                                 {...props}
                             />
                         )}
