@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { generatePalette } from '../utils/chroma';
 import Palette from './Palette';
@@ -18,7 +18,7 @@ class App extends React.Component {
             if (!palette) throw new Error('Palette not found.');
             return palette;
         } catch (e) {
-            window.location.assign('/');
+            console.log('ERROR: ', e.message);
         }
     };
 
@@ -59,35 +59,49 @@ class App extends React.Component {
                     <Route
                         path='/palette/:paletteId/:colorId'
                         render={props => {
-                            const match = this.findPalette(
-                                props.match.params.paletteId
-                            );
-                            const { emoji, paletteName } = match;
-                            return (
-                                <SingleColorPalette
-                                    shades={this.getColorSpectrum(
-                                        match,
-                                        props.match.params.colorId
-                                    )}
-                                    emoji={emoji}
-                                    paletteId={props.match.params.paletteId}
-                                    paletteName={paletteName}
-                                    {...props}
-                                />
-                            );
+                            try {
+                                const match = this.findPalette(
+                                    props.match.params.paletteId
+                                );
+                                const { emoji, paletteName } = match;
+                                return (
+                                    <SingleColorPalette
+                                        shades={this.getColorSpectrum(
+                                            match,
+                                            props.match.params.colorId
+                                        )}
+                                        emoji={emoji}
+                                        paletteId={props.match.params.paletteId}
+                                        paletteName={paletteName}
+                                        {...props}
+                                    />
+                                );
+                            } catch (e) {
+                                return <Redirect to='/' />;
+                            }
                         }}
                     />
 
                     <Route
                         exact
                         path='/palette/:id'
-                        render={({ match }) => (
-                            <Palette
-                                palette={generatePalette(
-                                    this.findPalette(match.params.id)
-                                )}
-                            />
-                        )}
+                        render={props => {
+                            try {
+                                const palette = this.findPalette(
+                                    props.match.params.id
+                                );
+                                if (!palette)
+                                    throw new Error('Palette not found.');
+                                return (
+                                    <Palette
+                                        {...props}
+                                        palette={generatePalette(palette)}
+                                    />
+                                );
+                            } catch (e) {
+                                return <Redirect to='/' />;
+                            }
+                        }}
                     />
                     <Route
                         exact

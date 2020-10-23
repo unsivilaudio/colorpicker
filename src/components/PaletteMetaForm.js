@@ -59,7 +59,9 @@ class PaletteMetaForm extends React.Component {
 
         return (
             <>
-                <Dialog open={this.state.stage === 'emoji'}>
+                <Dialog
+                    open={this.state.stage === 'emoji'}
+                    onClose={this.handleClose}>
                     <Picker onSelect={this.handleSelectEmoji} name='emoji' />
                     <DialogActions>
                         <Button onClick={this.handleGoBack} color='primary'>
