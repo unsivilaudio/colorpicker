@@ -18,9 +18,6 @@ const styles = theme => ({
     root: {
         display: 'flex',
     },
-    hide: {
-        display: 'none',
-    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
@@ -166,7 +163,7 @@ class NewPaletteForm extends React.Component {
                     }}>
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={this.handleDrawerClose}>
-                            <ChevronLeftIcon />
+                            <ChevronLeftIcon fontSize='large' />
                         </IconButton>
                     </div>
                     <Divider />

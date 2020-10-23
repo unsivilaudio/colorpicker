@@ -19,7 +19,7 @@ class SingleColorPalette extends React.Component {
         return shades.map(box => {
             return (
                 <ColorBox
-                    key={box.id}
+                    key={box.name}
                     name={box.name}
                     background={box[this.state.format]}
                     showingFullPalette={false}
