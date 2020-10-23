@@ -13,7 +13,13 @@ class App extends React.Component {
     state = { palettes: seedColors };
 
     findPalette = id => {
-        return this.state.palettes.find(el => el.id === id);
+        try {
+            const palette = this.state.palettes.find(el => el.id === id);
+            if (!palette) throw new Error('Palette not found.');
+            return palette;
+        } catch (e) {
+            window.location.assign('/');
+        }
     };
 
     getColorSpectrum = (palette, colorId) => {
