@@ -15,15 +15,17 @@ export default theme => ({
     },
     drawerHeader: {
         display: 'flex',
+        width: '100%',
         alignItems: 'center',
         padding: '0 8px',
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
+        minHeight: '4.8rem !important',
     },
     content: {
         flexGrow: 1,
-        height: 'calc(100vh - 64px)',
-        padding: theme.spacing(1) * 3,
+        height: 'calc(100vh - 4.8rem)',
+        padding: 0,
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
