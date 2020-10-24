@@ -1,3 +1,5 @@
+import sizes from './sizes';
+
 export default {
     root: {
         backgroundColor: 'blue',
@@ -7,6 +9,10 @@ export default {
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
+        [sizes.down('lg')]: {
+            alignItems: 'center',
+            minHeight: '100vh',
+        },
     },
     container: {
         width: '50%',
@@ -14,6 +20,12 @@ export default {
         alignItems: 'flex-start',
         flexDirection: 'column',
         flexWrap: 'wrap',
+        [sizes.down('lg')]: {
+            flexDirection: 'row',
+            width: '80%',
+            height: '100%',
+            paddingBottom: '2rem',
+        },
     },
     nav: {
         display: 'flex',

@@ -1,4 +1,5 @@
 import chroma from 'chroma-js';
+import sizes from './sizes';
 
 export default {
     colorBox: {
@@ -13,10 +14,28 @@ export default {
         '&:hover button': {
             opacity: 1,
         },
+        [sizes.down('lg')]: {
+            width: '25%',
+            height: props => (props.showingFullPalette ? '20%' : '33.3333%'),
+        },
+        [sizes.down('md')]: {
+            width: '50%',
+            height: props => (props.showingFullPalette ? '10%' : '20%'),
+        },
+        [sizes.down('xs')]: {
+            width: '100%',
+            height: props => (props.showingFullPalette ? '5%' : '10%'),
+        },
     },
     copyText: {
         color: props =>
             chroma(props.background).luminance() >= 0.7 ? 'black' : 'white',
+    },
+    copyContainer: {
+        [sizes.down('md')]: {
+            display: 'flex',
+            alignItems: 'center',
+        },
     },
     colorName: {
         color: props =>
@@ -37,6 +56,13 @@ export default {
         textAlign: 'center',
         textTransform: 'uppercase',
         lineHeight: '3rem',
+        [sizes.down('md')]: {
+            height: '100%',
+            padding: '1.5rem',
+        },
+        [sizes.down('sm')]: {
+            padding: '0',
+        },
     },
     copyButton: {
         color: props =>
@@ -70,6 +96,9 @@ export default {
         letterSpacing: '1px',
         textTransform: 'uppercase',
         fontSize: '1.2rem',
+        [sizes.down('md')]: {
+            padding: '0.5rem',
+        },
     },
     copyOverlay: {
         opacity: '0',
@@ -95,7 +124,6 @@ export default {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: '4rem',
         transform: 'scale(0.1)',
         opacity: '0',
         color: 'white',
@@ -104,14 +132,21 @@ export default {
             width: '100%',
             textAlign: 'center',
             fontWeight: '400',
+            fontSize: '4rem',
             textShadow: '1px 2px black',
             background: 'rgba(255, 255, 255, 0.2)',
             marginBottom: '0',
             padding: '1rem',
+            [sizes.down('xs')]: {
+                fonstSize: '2rem',
+            },
         },
         '& p': {
             fontSize: '2rem',
             fontWeight: '100',
+            [sizes.down('xs')]: {
+                fonstSize: '1rem',
+            },
         },
     },
     showMsg: {

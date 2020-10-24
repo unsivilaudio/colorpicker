@@ -1,9 +1,15 @@
+import sizes from './sizes';
+
 export default {
     navbar: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
         height: '6vh',
+        [sizes.down('md')]: {
+            flexDirection: 'column',
+            height: 'auto',
+        },
     },
     logo: {
         fontSize: '2.2rem',
@@ -21,6 +27,28 @@ export default {
             '&:visited, &:active': {
                 color: 'inherit',
                 textDecoration: 'none',
+            },
+        },
+        [sizes.down('md')]: {
+            width: '100%',
+            margin: 0,
+            padding: '1rem',
+            '& a': {
+                width: '100%',
+                textAlign: 'center',
+            },
+        },
+    },
+    sliderContainer: {
+        [sizes.down('md')]: {
+            width: '100%',
+            fontSize: '1.5rem',
+            marginLeft: '0.8rem',
+            display: 'flex',
+            alignItems: 'center',
+            '& span': {
+                padding: '0.7rem 0',
+                flex: '1 0 20%',
             },
         },
     },
@@ -46,12 +74,20 @@ export default {
             marginLeft: '-7px',
             marginTop: '-3px',
         },
+        [sizes.down('md')]: {
+            marginRight: 0,
+            maxWidth: '80%',
+        },
     },
     selectContainer: {
         marginLeft: 'auto',
         marginRight: '1rem',
         '& .MuiSelect-select:focus': {
             backgroundColor: 'inherit',
+        },
+        [sizes.down('md')]: {
+            margin: '0',
+            width: '100%',
         },
     },
 };

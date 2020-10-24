@@ -32,6 +32,9 @@ export default theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        '& a': {
+            textDecoration: 'none',
+        },
     },
     hide: {
         display: 'none',

@@ -1,6 +1,5 @@
 export default {
     root: {
-        overflow: 'hidden',
         backgroundColor: 'white',
         border: '1px solid black',
         borderRadius: '5px',
@@ -13,7 +12,7 @@ export default {
     },
     colors: {
         backgroundColor: '#dae1e4',
-        height: '150px',
+        height: '15rem',
         width: '100%',
         borderRadius: '5px',
         overflow: 'hidden',
