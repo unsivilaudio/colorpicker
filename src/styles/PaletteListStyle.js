@@ -3,15 +3,17 @@ import sizes from './sizes';
 export default {
     root: {
         backgroundColor: 'blue',
-        height: '100vh',
-        overflowY: 'auto',
+        minHeight: '100vh',
         padding: '2rem 0',
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
         [sizes.down('lg')]: {
             alignItems: 'center',
-            minHeight: '100vh',
+            padding: '1.5rem 0',
+        },
+        [sizes.down('sm')]: {
+            padding: '1rem 0',
         },
     },
     container: {
@@ -24,7 +26,9 @@ export default {
             flexDirection: 'row',
             width: '80%',
             height: '100%',
-            paddingBottom: '2rem',
+        },
+        [sizes.down('sm')]: {
+            width: '90%',
         },
     },
     nav: {
@@ -39,10 +43,9 @@ export default {
         },
     },
     palettes: {
-        boxSizing: 'border-box',
         width: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 30%)',
-        gridGap: '5%',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
     },
 };

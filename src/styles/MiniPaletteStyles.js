@@ -1,5 +1,9 @@
+import sizes from './sizes';
+
 export default {
     root: {
+        flex: '0 0 30%',
+        margin: '2.5% 0',
         backgroundColor: 'white',
         border: '1px solid black',
         borderRadius: '5px',
@@ -9,6 +13,15 @@ export default {
         '&:hover $delete': {
             opacity: 1,
         },
+        [sizes.down('sm')]: {
+            overflow: 'hidden',
+            flexBasis: '48%',
+            margin: '2% 0',
+        },
+        [sizes.down('xs')]: {
+            flexBasis: '100%',
+            margin: '1rem 0',
+        },
     },
     colors: {
         backgroundColor: '#dae1e4',
@@ -16,6 +29,9 @@ export default {
         width: '100%',
         borderRadius: '5px',
         overflow: 'hidden',
+        [sizes.down('xs')]: {
+            height: '25rem',
+        },
     },
     title: {
         display: 'flex',
@@ -26,6 +42,9 @@ export default {
         paddingTop: '1rem',
         fontSize: '1rem',
         position: 'relative',
+        [sizes.down('xs')]: {
+            fontSize: '1.6rem',
+        },
     },
     emoji: {
         marginLeft: '0.5rem',
@@ -46,6 +65,9 @@ export default {
         opacity: 0,
         zIndex: 10,
         transition: 'all .3s ease-in-out',
+        [sizes.down('sm')]: {
+            opacity: 1,
+        },
     },
     deleteIcon: {
         position: 'absolute',

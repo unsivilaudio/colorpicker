@@ -7,7 +7,8 @@ export default {
         justifyContent: 'flex-start',
         height: '6vh',
         [sizes.down('md')]: {
-            flexDirection: 'column',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
             height: 'auto',
         },
     },
@@ -30,7 +31,8 @@ export default {
             },
         },
         [sizes.down('md')]: {
-            width: '100%',
+            flex: '0 0 100%',
+            height: 'auto',
             margin: 0,
             padding: '1rem',
             '& a': {
@@ -40,20 +42,31 @@ export default {
         },
     },
     sliderContainer: {
+        flex: '1 1 50rem',
+        display: 'flex',
+        alignItems: 'center',
         [sizes.down('md')]: {
-            width: '100%',
+            flex: '0 1 70%',
             fontSize: '1.5rem',
-            marginLeft: '0.8rem',
-            display: 'flex',
-            alignItems: 'center',
+            marginLeft: '0',
+            justifyContent: 'center',
             '& span': {
                 padding: '0.7rem 0',
-                flex: '1 0 20%',
+                paddingLeft: '1rem',
+                flex: '0 0 10rem',
+            },
+        },
+        [sizes.down('xs')]: {
+            flex: '0 1 60%',
+            fontSize: '1.2rem',
+            '& span': {
+                paddingLeft: '.8rem',
+                flex: '0 0 7rem',
             },
         },
     },
     slider: {
-        width: '34rem',
+        flex: '0 1 34rem',
         margin: '0 1rem',
         display: 'inline-block',
         '& .rc-slider-track': {
@@ -75,8 +88,12 @@ export default {
             marginTop: '-3px',
         },
         [sizes.down('md')]: {
-            marginRight: 0,
-            maxWidth: '80%',
+            margin: '0 0.8rem',
+            flex: '1 1 25rem',
+        },
+        [sizes.down('xs')]: {
+            margin: '0 0.5rem',
+            flex: '0 1 20rem',
         },
     },
     selectContainer: {
@@ -86,8 +103,15 @@ export default {
             backgroundColor: 'inherit',
         },
         [sizes.down('md')]: {
+            flex: '0 1 30%',
             margin: '0',
-            width: '100%',
+            paddingRight: '1.5rem',
+            display: 'flex',
+            justifyContent: 'flex-end',
+        },
+        [sizes.down('xs')]: {
+            flex: '0 1 12rem',
+            paddingRight: '1rem',
         },
     },
 };
