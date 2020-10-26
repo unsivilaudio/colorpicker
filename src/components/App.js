@@ -1,20 +1,22 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { generatePalette } from '../utils/chroma';
+import seedColors from '../seedColors';
+
 import Palette from './Palette';
 import SingleColorPalette from './SingleColorPalette';
-import seedColors from '../seedColors';
 import PaletteList from './PaletteList';
 import NewPaletteForm from './NewPaletteForm';
-import '../styles/App.css';
+import Page from './Page';
 
 class App extends React.Component {
-    state = { palettes: seedColors };
+    state = { palettes: [] };
 
     componentDidMount() {
         const savedPalettes =
-            JSON.parse(localStorage.getItem('palettes')) || [];
+            JSON.parse(localStorage.getItem('palettes')) || seedColors;
         if (savedPalettes.length > 0) {
             this.setState({ palettes: savedPalettes });
         }
@@ -61,77 +63,119 @@ class App extends React.Component {
     render() {
         return (
             <div className='App'>
-                <Switch>
-                    <Route
-                        exact
-                        path='/palette/new'
-                        render={props => (
-                            <NewPaletteForm
-                                {...props}
-                                savePalette={this.savePalette}
-                                palettes={this.state.palettes}
-                            />
-                        )}
-                    />
-                    <Route
-                        path='/palette/:paletteId/:colorId'
-                        render={props => {
-                            try {
-                                const match = this.findPalette(
-                                    props.match.params.paletteId
-                                );
-                                const { emoji, paletteName } = match;
-                                return (
-                                    <SingleColorPalette
-                                        shades={this.getColorSpectrum(
-                                            match,
-                                            props.match.params.colorId
+                <Route
+                    render={({ location }) => (
+                        <TransitionGroup>
+                            <CSSTransition
+                                key={location.key}
+                                classNames='page'
+                                timeout={500}>
+                                <Switch location={location}>
+                                    <Route
+                                        exact
+                                        path='/palette/new'
+                                        render={props => (
+                                            <Page>
+                                                <NewPaletteForm
+                                                    {...props}
+                                                    savePalette={
+                                                        this.savePalette
+                                                    }
+                                                    palettes={
+                                                        this.state.palettes
+                                                    }
+                                                />
+                                            </Page>
                                         )}
-                                        emoji={emoji}
-                                        paletteId={props.match.params.paletteId}
-                                        paletteName={paletteName}
-                                        {...props}
                                     />
-                                );
-                            } catch (e) {
-                                return <Redirect to='/' />;
-                            }
-                        }}
-                    />
+                                    <Route
+                                        path='/palette/:paletteId/:colorId'
+                                        render={props => {
+                                            try {
+                                                const match = this.findPalette(
+                                                    props.match.params.paletteId
+                                                );
+                                                const {
+                                                    emoji,
+                                                    paletteName,
+                                                } = match;
+                                                return (
+                                                    <Page>
+                                                        <SingleColorPalette
+                                                            shades={this.getColorSpectrum(
+                                                                match,
+                                                                props.match
+                                                                    .params
+                                                                    .colorId
+                                                            )}
+                                                            emoji={emoji}
+                                                            paletteId={
+                                                                props.match
+                                                                    .params
+                                                                    .paletteId
+                                                            }
+                                                            paletteName={
+                                                                paletteName
+                                                            }
+                                                            {...props}
+                                                        />
+                                                    </Page>
+                                                );
+                                            } catch (e) {
+                                                return <Redirect to='/' />;
+                                            }
+                                        }}
+                                    />
 
-                    <Route
-                        exact
-                        path='/palette/:id'
-                        render={props => {
-                            try {
-                                const palette = this.findPalette(
-                                    props.match.params.id
-                                );
-                                if (!palette)
-                                    throw new Error('Palette not found.');
-                                return (
-                                    <Palette
-                                        {...props}
-                                        palette={generatePalette(palette)}
+                                    <Route
+                                        exact
+                                        path='/palette/:id'
+                                        render={props => {
+                                            try {
+                                                const palette = this.findPalette(
+                                                    props.match.params.id
+                                                );
+                                                if (!palette)
+                                                    throw new Error(
+                                                        'Palette not found.'
+                                                    );
+                                                return (
+                                                    <Page>
+                                                        <Palette
+                                                            {...props}
+                                                            palette={generatePalette(
+                                                                palette
+                                                            )}
+                                                        />
+                                                    </Page>
+                                                );
+                                            } catch (e) {
+                                                return <Redirect to='/' />;
+                                            }
+                                        }}
                                     />
-                                );
-                            } catch (e) {
-                                return <Redirect to='/' />;
-                            }
-                        }}
-                    />
-                    <Route
-                        exact
-                        path='/'
-                        render={props => (
-                            <PaletteList
-                                palettes={this.state.palettes}
-                                removePalette={this.deletePalette}
-                                {...props}
-                            />
-                        )}
-                    />
-                </Switch>
+                                    <Route
+                                        exact
+                                        path='/'
+                                        render={props => (
+                                            <Page>
+                                                <PaletteList
+                                                    palettes={
+                                                        this.state.palettes
+                                                    }
+                                                    removePalette={
+                                                        this.deletePalette
+                                                    }
+                                                    {...props}
+                                                />
+                                            </Page>
+                                        )}
+                                    />
+                                </Switch>
+                            </CSSTransition>
+                        </TransitionGroup>
+                    )}
+                />
             </div>
         );
     }

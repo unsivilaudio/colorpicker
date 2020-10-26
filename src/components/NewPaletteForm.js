@@ -76,7 +76,6 @@ class NewPaletteForm extends React.Component {
     };
 
     handleSubmit = newPalette => {
-        console.log(newPalette);
         newPalette.id = newPalette.paletteName.toLowerCase().replace(/ /g, '-');
         newPalette.colors = this.state.colors;
         this.props.savePalette(newPalette);

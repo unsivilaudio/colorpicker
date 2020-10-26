@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/styles';
 import ColorBox from './ColorBox';
 import Navbar from './nav/NavBar';
 import PaletteFooter from './PaletteFooter';
+
 import Styles from '../styles/PaletteStyles';
 
 class SingleColorPalette extends React.Component {

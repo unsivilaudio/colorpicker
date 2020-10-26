@@ -3,6 +3,7 @@ import { drawerWidth } from './constants';
 export default theme => ({
     root: {
         display: 'flex',
+        fontSize: '1.6rem',
     },
     drawer: {
         width: drawerWidth,

@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import { Button } from '@material-ui/core';
+
 import PaletteMetaForm from './PaletteMetaForm';
 import Styles from '../styles/PaletteFormNavStyles';
 

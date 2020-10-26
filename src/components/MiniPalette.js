@@ -1,10 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
+
 import Styles from '../styles/MiniPaletteStyles';
 
-const MiniPalette = props => {
-    const { classes, colors, paletteName, emoji } = props;
-    const miniColorBoxes = colors.map(color => {
+class MiniPalette extends React.PureComponent {
+    miniColorBoxes = this.props.colors.map(color => {
+        const { classes } = this.props;
         return (
             <div
                 className={classes.miniColor}
@@ -14,22 +15,28 @@ const MiniPalette = props => {
         );
     });
 
-    const deletePalette = e => {
+    deletePalette = (e, id) => {
         e.stopPropagation();
-        props.handleRemovePalette();
+        this.props.handleRemovePalette(id);
     };
 
-    return (
-        <div className={classes.root} onClick={props.handleClick}>
-            <div className={classes.delete} onClick={deletePalette}>
-                <span className={classes.deleteIcon}>X</span>
+    render() {
+        const { classes, paletteName, emoji, handleClick, id } = this.props;
+        console.log('RENDERING: ', paletteName);
+        return (
+            <div className={classes.root} onClick={() => handleClick(id)}>
+                <div
+                    className={classes.delete}
+                    onClick={e => this.deletePalette(e, id)}>
+                    <span className={classes.deleteIcon}>X</span>
+                </div>
+                <div className={classes.colors}>{this.miniColorBoxes}</div>
+                <h5 className={classes.title}>
+                    {paletteName} <span className={classes.emoji}>{emoji}</span>
+                </h5>
             </div>
-            <div className={classes.colors}>{miniColorBoxes}</div>
-            <h5 className={classes.title}>
-                {paletteName} <span className={classes.emoji}>{emoji}</span>
-            </h5>
-        </div>
-    );
-};
+        );
+    }
+}
 
 export default withStyles(Styles)(MiniPalette);

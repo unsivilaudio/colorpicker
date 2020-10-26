@@ -1,8 +1,20 @@
 import sizes from './sizes';
+import svgBG from './Confetti-Doodles.svg';
 
 export default {
+    '@global': {
+        '.fade-exit': {
+            opacity: 1,
+        },
+        '.fade-exit-active': {
+            opacity: 0,
+            transition: 'opacity 500ms ease-out',
+        },
+    },
     root: {
-        backgroundColor: 'blue',
+        backgroundColor: '#1e8feb',
+        backgroundImage: `url(${svgBG})`,
+        backgroundSize: 'cover',
         minHeight: '100vh',
         padding: '2rem 0',
         display: 'flex',
