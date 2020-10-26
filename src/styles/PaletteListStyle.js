@@ -21,7 +21,6 @@ export default {
         alignItems: 'flex-start',
         justifyContent: 'center',
         [sizes.down('lg')]: {
-            alignItems: 'center',
             padding: '1.5rem 0',
         },
         [sizes.down('sm')]: {

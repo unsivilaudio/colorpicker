@@ -22,7 +22,6 @@ class MiniPalette extends React.PureComponent {
 
     render() {
         const { classes, paletteName, emoji, handleClick, id } = this.props;
-        console.log('RENDERING: ', paletteName);
         return (
             <div className={classes.root} onClick={() => handleClick(id)}>
                 <div

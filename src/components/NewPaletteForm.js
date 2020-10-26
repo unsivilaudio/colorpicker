@@ -1,18 +1,21 @@
 import React from 'react';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { Button } from '@material-ui/core';
 import arrayMove from 'array-move';
+
+import seedColors from '../seedColors';
 import DraggableColorList from './DraggableColorList';
+import { drawerWidth } from '../styles/constants';
 import PaletteFormNav from './PaletteFormNav';
 import ColorPickerForm from './ColorPickerForm';
+
 import Styles from '../styles/NewPaletteFormStyles.js';
-import { drawerWidth } from '../styles/constants';
 
 class NewPaletteForm extends React.Component {
     static defaultProps = {
@@ -24,7 +27,7 @@ class NewPaletteForm extends React.Component {
         currentColor: '#00808',
         newColorName: '',
         newPaletteName: '',
-        colors: this.props.palettes[0].colors,
+        colors: seedColors[0].colors,
     };
 
     handleDrawerOpen = () => {
